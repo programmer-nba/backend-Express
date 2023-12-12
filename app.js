@@ -29,6 +29,12 @@ const prefix = '/v1/Backend-Express'
 app.use(prefix+'/', require('./routes/index'));
 //ข้อมูล admin
 app.use(prefix+'/admin',require('./routes/admin'));
+//ข้อมูล team1
+app.use(prefix+'/team1',require('./routes/team1'));
+//ข้อมูล team2
+app.use(prefix+'/team2',require('./routes/team2'));
+//ข้อมูล login
+app.use(prefix+'/login',require('./routes/login'));
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // หรือกำหนด origin ที่เฉพาะเจาะจง
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

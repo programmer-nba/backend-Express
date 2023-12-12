@@ -18,7 +18,6 @@ module.exports.add = async (req, res) => {
         {
             res.status(200).send({status:false,message:"กรุณากรอก name"});
         }
-
          //เช็คชื่อซ้ำ
         const Check = await checkalluser.Checkusername(req.body.username).then((status)=>{
             return status
@@ -30,7 +29,8 @@ module.exports.add = async (req, res) => {
         const data = new Admin({
             username:req.body.username,
             password:bcrypt.hashSync(req.body.password, 10),
-            name:req.body.name
+            name:req.body.name,
+            roles:req.body.roles
         })
         const add = await data.save()
         res.status(200).send({status:true,message:"คุณได้สร้างไอดี admin เรียบร้อย",data:add});
@@ -85,6 +85,18 @@ module.exports.edit = async (req,res) =>{
         {
             return res.status(404).send({status:false,message:"ไม่มีข้อมูล admin"})
         }
+
+        
+        if(admin.username !=req.body.username){
+             //เช็คชื่อซ้ำ
+            const Check = await checkalluser.Checkusername(req.body.username).then((status)=>{
+                return status
+            })
+            if(Check === true){
+                return res.status(200).send({status:false,message:`username ${req.body.username} ซ้ำ กรุณาเปลี่ยนใหม่`})
+            }
+        }
+        
         const data ={
             username: req.body.username,
             password: ( req.body.password!= undefined && req.body.password!= ""? bcrypt.hashSync(req.body.password, 10):admin.password),

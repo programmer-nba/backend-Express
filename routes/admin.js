@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken");
 
 //สร้างรหัส admin 
-router.post('/',adminAuth,Admin.add)
+router.post('/',Admin.add)
 
 //ดึงข้อมูลทั้งหมด
 router.get('/',adminAuth,Admin.getall)

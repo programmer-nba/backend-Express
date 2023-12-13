@@ -16,5 +16,9 @@ router.get('/byid/:id',adminAuth,Admin.getbyid)
 router.put('/:id',adminAuth,Admin.edit)
 // ลบข้อมูล admin
 router.delete('/:id',adminAuth,Admin.delete)
+//เพิ่มรูป
+router.post('/image/:id',Admin.image)
+//ลบรูป
+router.delete('/:id/deleteimage/:image',Admin.deleteimage)
 
 module.exports = router;

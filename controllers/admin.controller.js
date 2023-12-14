@@ -3,20 +3,30 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken");
 //เรียกใช้ function เช็คชื่อซ้ำ
 const checkalluser = require("../functions/check-alluser")
+const multer = require("multer");
+const {uploadFileCreate,deleteFile} = require('../functions/uploadfilecreate');
+
+const storage = multer.diskStorage({
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+     //console.log(file.originalname);
+  },
+});
+
 //สร้างไอดี admin
 module.exports.add = async (req, res) => {
     try {
         if(req.body.username=== undefined || req.body.username ==='')
         {
-            res.status(200).send({status:false,message:"กรุณากรอก username"});
+            return res.status(200).send({status:false,message:"กรุณากรอก username"});
         }
         if(req.body.password=== undefined || req.body.password === '')
         {
-            res.status(200).send({status:false,message:"กรุณากรอก password"});
+            return res.status(200).send({status:false,message:"กรุณากรอก password"});
         }
         if(req.body.name=== undefined || req.body.name ==='')
         {
-            res.status(200).send({status:false,message:"กรุณากรอก name"});
+            return res.status(200).send({status:false,message:"กรุณากรอก name"});
         }
          //เช็คชื่อซ้ำ
         const Check = await checkalluser.Checkusername(req.body.username).then((status)=>{
@@ -70,15 +80,15 @@ module.exports.edit = async (req,res) =>{
     try{    
         if(req.body.username=== undefined || req.body.username ==='')
         {
-            res.status(200).send({status:false,message:"กรุณากรอก username"});
+            return  res.status(200).send({status:false,message:"กรุณากรอก username"});
         }
         if(req.body.name=== undefined || req.body.name ==='')
         {
-            res.status(200).send({status:false,message:"กรุณากรอก name"});
+            return res.status(200).send({status:false,message:"กรุณากรอก name"});
         }
         if(req.params.id === undefined || req.params.id ==='')
         {
-            res.status(200).send({status:false,message:"กรุณาส่ง id มาใน paramsด้วย"});
+            return res.status(200).send({status:false,message:"กรุณาส่ง id มาใน paramsด้วย"});
         }
         const admin = await Admin.findOne({_id:req.params.id})
         if(!admin)
@@ -123,6 +133,10 @@ module.exports.delete = async (req,res) =>{
         if(!admindata){
             return res.status(200).send({status:false,message:"ไม่มีข้อมูล admin"})
         }
+        if(admindata.image != "")
+        {
+            await deleteFile(admindata.image); 
+        } 
         const deleteadmin = await Admin.findByIdAndDelete(req.params.id)
         return res.status(200).send({status:true,message:"ลบข้อมูลสำเร็จ",data:deleteadmin})
     }catch (error) {
@@ -131,15 +145,6 @@ module.exports.delete = async (req,res) =>{
 }
 
 
-const multer = require("multer");
-const {uploadFileCreate,deleteFile} = require('../functions/uploadfilecreate');
-
-const storage = multer.diskStorage({
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-     //console.log(file.originalname);
-  },
-});
 
 //รูปภาพ
 module.exports.image = async (req,res) =>{

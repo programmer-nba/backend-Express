@@ -7,7 +7,8 @@ const team1Schema = new mongoose.Schema(
     password: {type: String, required: true},
     name: {type: String, required: true},
     roles:{type:String,required:true},
-    level:{type:String}
+    level:{type:String},
+    image:{type:String}
   },
   {timestamps: true}
 );

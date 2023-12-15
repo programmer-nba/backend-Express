@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const customerSchema = new mongoose.Schema(
   {
     customername: {type: String, required: true}, // ชื่อลูกค้า
-    companyfirst:{type:String ,required:true}, //ชื่อต้นลูกค้า
+    companyfirst:{type:String ,required:true}, //ชื่อต้นบริษัท
     companyname: {type: String, required: true}, //ชื่อบริษัท
     customeemail: {type: String, required: true}, //อีเมล์
     phonepersonal: {type: String, required: true},//เบอร์โทรศัพท์ส่วนตัว
@@ -19,9 +19,9 @@ const customerSchema = new mongoose.Schema(
     taxid: {type:String,required:true},//(เลขประจำตัวผู้เสียภาษี)
     businessregistration: {type:String,required:true},//(ทะเบียนนิติบุคคลเลขที่ )
     natureofbusiness : {type:String,required:true},//(ประเภทธุรกิจ)
-    dateofincorporation :{type:String,required:true},//(วันที่จดทะเบียน)
+    dateofincorporation :{type:Date,required:true},//(วันที่จดทะเบียน)
     capital :{type:String,required:true},//(ทุนจดทะเบียน)
-    team1_id :{type: mongoose.Schema.Types.ObjectId,ref:'team1',required:true}
+    team1_id :{type: mongoose.Schema.Types.ObjectId,ref:'team1',required:true} //รหัสทีม1
   },
   {timestamps: true}
 );

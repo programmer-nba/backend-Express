@@ -35,6 +35,10 @@ app.use(prefix+'/team1',require('./routes/team1'));
 app.use(prefix+'/team2',require('./routes/team2'));
 //ข้อมูล login
 app.use(prefix+'/login',require('./routes/login'));
+//ข้อมูลลูกค้า
+app.use(prefix+'/customer',require('./routes/customer'));
+//ข้อมูลใบเสนอราคา
+app.use(prefix+'/quotation',require('./routes/quotation'));
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // หรือกำหนด origin ที่เฉพาะเจาะจง
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

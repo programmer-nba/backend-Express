@@ -9,10 +9,11 @@ router.post('/',Team.tokenteam1,Customer.add)
 router.get('/',Team.all,Customer.getall)
 //ดึงข้อมูล by id
 router.get('/byid/:id',Team.all,Customer.getbyid)
+//ดึงข้อมูล by team1_id
+router.get('/byteam1/:id',Team.all,Customer.getbyteam1id)
 //แก้ไขข้อมูลลูกค้า 
-router.put('/:id',Team.all,Team1.edit)
+router.put('/:id',Team.tokenteam1,Customer.edit)
 //ลบข้อมูลลูกค้า
-router.delete('/:id',Team.tokenteam1,Team1.delete)
-
+router.delete('/:id',Team.tokenteam1,Customer.delete)
 
 module.exports = router;

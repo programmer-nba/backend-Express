@@ -6,7 +6,7 @@ module.exports.add = async (req, res) => {
         const datacentralwork = await Centralwork.findById(req.body.centralwork_id)
         if(!datacentralwork)
         {
-            return res.status(200).send({status:false,message:"ไม่มีข้อมูลการเดลงานกลาง"})
+            return res.status(200).send({status:false,message:"ไม่มีข้อมูลการดีลงานกลาง"})
         }
 
         const data = new Coordinatecustomers({
@@ -22,7 +22,7 @@ module.exports.add = async (req, res) => {
             coordinatecustomers_id:add._id
         }
         const edit = await Centralwork.findByIdAndUpdate(datacentralwork._id,{$push:{coordinatecustomers:editdata}},{new:true})
-        res.status(200).send({status:true,message:"คุณได้รับงานเดลเรียบร้อย",data:add,centralwork:edit});
+        res.status(200).send({status:true,message:"คุณได้รับงานดีลเรียบร้อย",data:add,centralwork:edit});
       } catch (error) {
         return res.status(500).send({status:false,error:error.message});
       }    
@@ -48,7 +48,7 @@ module.exports.getall = async (req,res) =>{
     }
 }
 
-//ค้นหาข้อมูลการเดลงานกลาง by id
+//ค้นหาข้อมูลการดีลงานกลาง by id
 module.exports.getbyid = async (req,res) =>{
     try{
         const id = req.params.id    
@@ -77,7 +77,7 @@ module.exports.delete = async (req,res) =>{
         const coordinatecustomersdata = await Coordinatecustomers.findById(id).populate('centralwork_id')
         if(!coordinatecustomersdata)
         {
-            return res.status(200).send({status:false,message:"ไม่มีข้อมูลข้อมูลการเดลงานกับลูกค้า"})
+            return res.status(200).send({status:false,message:"ไม่มีข้อมูลข้อมูลการดีลงานกับลูกค้า"})
         }
         const deletecoord_id = coordinatecustomersdata.centralwork_id.coordinatecustomers.filter(item=> item != id)
         const edit = await Coordinatecustomers.findByIdAndUpdate(coordinatecustomersdata._id,{coordinatecustomers:deletecoord_id},{new:true})

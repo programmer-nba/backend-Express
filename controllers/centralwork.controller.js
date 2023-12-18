@@ -5,7 +5,7 @@ const Team2  =require('../models/team2.schema')
 const Quotation = require('../models/quotation.schema')
 const Coordinatecustomers = require('../models/coordinatecustomers.schema')
 const Centralwork = require('../models/centralwork.schema')
-//ค้นหาข้อมูลการเดลงานกลางทั้งหมด
+//ค้นหาข้อมูลการดีลงานกลางทั้งหมด
 module.exports.getall = async (req,res) =>{
     try{    
         const centralworkdata = await Centralwork.find().populate("quotation_id").populate("team1_id").populate("team2_id").populate("customer_id").populate("coordinatecustomers.coordinatecustomers_id")
@@ -18,7 +18,7 @@ module.exports.getall = async (req,res) =>{
     }
 }
 
-//ค้นหาข้อมูลการเดลงานกลาง by id
+//ค้นหาข้อมูลการดีลงานกลาง by id
 module.exports.getbyid = async (req,res) =>{
     try{    
         const id = req.params.id
@@ -61,14 +61,14 @@ module.exports.getbyteam2id = async (req,res) =>{
 }
 
 
-//แก้ไขข้อมูลการเดลงานกลาง
+//แก้ไขข้อมูลการดีลงานกลาง
 module.exports.edit = async (req, res) => {
     try{
         const id = req.params.id
         const centralwork = await Centralwork.findById(id)
         if(!centralwork)
         {
-            return res.status(200).send({status:false,message:"ไม่มีข้อมูลการเดลงาน"})
+            return res.status(200).send({status:false,message:"ไม่มีข้อมูลการดีลงาน"})
         }
         const centralworkdata ={
             quotation_id :req.body.quotation_id,
@@ -80,28 +80,28 @@ module.exports.edit = async (req, res) => {
         }
 
         const edit = await Centralwork.findByIdAndUpdate(id,centralworkdata,{new:true})
-        return res.status(200).send({status:true,data:edit,message:"เพิ่มข้อมูลการเดลงานสำเร็จ"})
+        return res.status(200).send({status:true,data:edit,message:"เพิ่มข้อมูลการดีลงานสำเร็จ"})
     }catch (error) {
         return res.status(500).send({status:false,error:error.message});
     }
     
 }
 
-//team 2 งานเดล
+//team 2 งานดีล
 module.exports.addworkteam2 = async (req, res) => {
     try{
         const id = req.params.id
         const centralwork = await Centralwork.findById(id)
         if(!centralwork)
         {
-            return res.status(200).send({status:false,message:"ไม่มีข้อมูลการเดลงาน"})
+            return res.status(200).send({status:false,message:"ไม่มีข้อมูลการดีลงาน"})
         }
         const centralworkdata ={
             team2_id:req.body.team2_id,
             datepull :Date.now(),
         }
         const edit = await Centralwork.findByIdAndUpdate(id,centralworkdata,{new:true})
-        return res.status(200).send({status:true,data:edit,message:"เพิ่มข้อมูลการเดลงานสำเร็จ"})
+        return res.status(200).send({status:true,data:edit,message:"เพิ่มข้อมูลการดีลงานสำเร็จ"})
     }catch (error) {
         return res.status(500).send({status:false,error:error.message});
     }

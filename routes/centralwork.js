@@ -14,7 +14,7 @@ router.get('/byid/:id',Team.all,Centralwork.getbyid)
 router.get('/byteam1/:id',Team.all,Centralwork.getbyteam1id)
 //ดึงข้อมูล by team2_id
 router.get('/byteam2/:id',Team.all,Centralwork.getbyteam2id)
-//แก้ไขข้อมูลการเดลงานกลาง 
+//แก้ไขข้อมูลการดีลงานกลาง 
 router.put('/:id',Team.all,Centralwork.edit)
 
 

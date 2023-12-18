@@ -39,9 +39,9 @@ app.use(prefix+'/login',require('./routes/login'));
 app.use(prefix+'/customer',require('./routes/customer'));
 //ข้อมูลใบเสนอราคา
 app.use(prefix+'/quotation',require('./routes/quotation'));
-//ข้อมูลการเดลงานกลาง
+//ข้อมูลการดีลงานกลาง
 app.use(prefix+'/centralwork',require('./routes/centralwork'));
-//ข้อมูลการเดลงานกับลูกค้า
+//ข้อมูลการดีลงานกับลูกค้า
 app.use(prefix+'/customswork',require('./routes/coordinatecustomer'))
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // หรือกำหนด origin ที่เฉพาะเจาะจง

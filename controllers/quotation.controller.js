@@ -1,6 +1,7 @@
 const Quotation = require('../models/quotation.schema')
 const Customer =  require('../models/customer.schema')
 const Team1  = require('../models/team1.schema')
+const Centralwork = require('../models/centralwork.schema')
 //เพิ่มข้อมูลลูกค้า
 module.exports.add = async (req, res) => {
     try{
@@ -42,7 +43,14 @@ module.exports.add = async (req, res) => {
             team1_id:req.body.team1_id//(รหัสทีม1)
         })
         const add = await data.save();
-        return res.status(200).send({status:true,data:add,message:"เพิ่มข้อมูลใบเสนอราคา"})
+
+        const datawork = new Centralwork({
+            quotation_id : add._id,
+            team1_id: req.body.team1_id,
+            customer_id: req.body.customer_id,
+        })
+        const addwork = await datawork.save();
+        return res.status(200).send({status:true,data:add,message:"เพิ่มข้อมูลใบเสนอราคา",centralwork:addwork})
     }catch (error) {
         return res.status(500).send({status:false,error:error.message});
     }
@@ -109,7 +117,8 @@ module.exports.delete = async (req,res) =>{
             return res.status(200).send({status:false,message:"ไม่มีข้อมูลใบเสนอราคา"})
         }
         const deletes = await Quotation.findByIdAndDelete(id)
-         return res.status(200).send({status:true,data:deletes,message:'ลบข้อมูลสำเร็จ'})
+        const deleteworkcentral = await Centralwork.findOneAndDelete({quotation_id:id})
+        return res.status(200).send({status:true,data:deletes,message:'ลบข้อมูลสำเร็จ',centralwork:deleteworkcentral})
     }catch (error) {
         return res.status(500).send({status:false,error:error.message});
     }

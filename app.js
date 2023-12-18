@@ -39,6 +39,10 @@ app.use(prefix+'/login',require('./routes/login'));
 app.use(prefix+'/customer',require('./routes/customer'));
 //ข้อมูลใบเสนอราคา
 app.use(prefix+'/quotation',require('./routes/quotation'));
+//ข้อมูลการเดลงานกลาง
+app.use(prefix+'/centralwork',require('./routes/centralwork'));
+//ข้อมูลการเดลงานกับลูกค้า
+app.use(prefix+'/customswork',require('./routes/coordinatecustomer'))
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // หรือกำหนด origin ที่เฉพาะเจาะจง
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

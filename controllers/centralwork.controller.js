@@ -8,7 +8,13 @@ const Centralwork = require('../models/centralwork.schema')
 //ค้นหาข้อมูลการดีลงานกลางทั้งหมด
 module.exports.getall = async (req,res) =>{
     try{    
-        const centralworkdata = await Centralwork.find().populate("quotation_id").populate("team1_id").populate("team2_id").populate("customer_id").populate("coordinatecustomers.coordinatecustomers_id")
+        const centralworkdata = await Centralwork.find().populate({ 
+            path: "quotation_id", 
+            populate: [
+              { path: "customer_id" },
+              { path: "team1_id" }, 
+            ]
+          }).populate("team1_id").populate("team2_id").populate("customer_id").populate("coordinatecustomers.coordinatecustomers_id")
         if(!centralworkdata){
             return res.status(200).send({status:false,message:"ไม่มีข้อมูลลูกค้า"})
         }
@@ -22,7 +28,13 @@ module.exports.getall = async (req,res) =>{
 module.exports.getbyid = async (req,res) =>{
     try{    
         const id = req.params.id
-        const centralworkdata = await Centralwork.findById(id).populate("quotation_id").populate("team1_id").populate("team2_id").populate("customer_id").populate("coordinatecustomers.coordinatecustomers_id")
+        const centralworkdata = await Centralwork.findById(id).populate({ 
+            path: "quotation_id", 
+            populate: [
+              { path: "customer_id" },
+              { path: "team1_id" }, 
+            ]
+          }).populate("team1_id").populate("team2_id").populate("customer_id").populate("coordinatecustomers.coordinatecustomers_id")
         if(!centralworkdata){
             return res.status(200).send({status:false,message:"ไม่มีข้อมูลลูกค้า"})
         }
@@ -36,7 +48,13 @@ module.exports.getbyid = async (req,res) =>{
 module.exports.getbyteam1id = async (req,res) =>{
     try{
         const id = req.params.id    
-        const centralworkdata = await Centralwork.find({team1_id:id}).populate("quotation_id").populate("team1_id").populate("team2_id").populate("customer_id").populate("coordinatecustomers.coordinatecustomers_id")
+        const centralworkdata = await Centralwork.find({team1_id:id}).populate({ 
+            path: "quotation_id", 
+            populate: [
+              { path: "customer_id" },
+              { path: "team1_id" }, 
+            ]
+          }).populate("team1_id").populate("team2_id").populate("customer_id").populate("coordinatecustomers.coordinatecustomers_id")
         if(!centralworkdata){
             return res.status(200).send({status:false,message:"ไม่มีข้อมูลลูกค้า"})
         }
@@ -50,10 +68,17 @@ module.exports.getbyteam1id = async (req,res) =>{
 module.exports.getbyteam2id = async (req,res) =>{
     try{
         const id = req.params.id    
-        const centralworkdata = await Centralwork.find({team2_id:id}).populate("quotation_id").populate("team1_id").populate("team2_id").populate("customer_id").populate("coordinatecustomers.coordinatecustomers_id")
+        const centralworkdata = await Centralwork.find({team2_id:id}).populate({ 
+            path: "quotation_id", 
+            populate: [
+              { path: "customer_id" },
+              { path: "team1_id" }, 
+            ]
+          }).populate("team1_id").populate("team2_id").populate("customer_id").populate("coordinatecustomers.coordinatecustomers_id")
         if(!centralworkdata){
             return res.status(200).send({status:false,message:"ไม่มีข้อมูลลูกค้า"})
         }
+
         return res.status(200).send({status:true,data:centralworkdata})
     }catch (error) {
         return res.status(500).send({status:false,error:error.message});

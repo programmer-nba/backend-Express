@@ -5,22 +5,28 @@ const customerSchema = new mongoose.Schema(
   {
     customername: {type: String, required: true}, // ชื่อลูกค้า
     companyfirst:{type:String ,required:true}, //ชื่อต้นบริษัท
-    companyname: {type: String, required: true}, //ชื่อบริษัท
+    companyname: {type: String, required: true,unique: true}, //ชื่อบริษัท
     customeemail: {type: String, required: true}, //อีเมล์
     phonepersonal: {type: String, required: true},//เบอร์โทรศัพท์ส่วนตัว
     //ที่อยู่ในการออกใบกำกับภาษี
-    addresstax:{type:String ,required:true}, //(ที่อยู่ใบกำกับภาษี)
-    provincetax: {type:String,required:true}, //จังหวัดใบกำกับภาษี
-    amphuretax: {type:String,required:true},//(อำเภอใบกำกับภาษี)
-    tambontax: {type:String,required:true},//(ตำบลใบกำกับภาษี)
-    telephonetax :{type:String,required:true},//(เบอร์โทรศัพท์)
-    faxtax:{type:String,required:true},//(โทรสาร)
+    addresstax:{type:String}, //(ที่อยู่ใบกำกับภาษี)
+    provincetax: {type:String}, //จังหวัดใบกำกับภาษี
+    amphuretax: {type:String},//(อำเภอใบกำกับภาษี)
+    tambontax: {type:String},//(ตำบลใบกำกับภาษี)
+    telephonetax :{type:String},//(เบอร์โทรศัพท์)
+    faxtax:{type:String},//(โทรสาร)
     //
-    taxid: {type:String,required:true},//(เลขประจำตัวผู้เสียภาษี)
-    businessregistration: {type:String,required:true},//(ทะเบียนนิติบุคคลเลขที่ )
-    natureofbusiness : {type:String,required:true},//(ประเภทธุรกิจ)
-    dateofincorporation :{type:Date,required:true},//(วันที่จดทะเบียน)
-    capital :{type:String,required:true},//(ทุนจดทะเบียน)
+    taxid: {type:String,unique: true},//(เลขประจำตัวผู้เสียภาษี)
+    businessregistration: {type:String,unique: true},//(ทะเบียนนิติบุคคลเลขที่ )
+    natureofbusiness : {type:String},//(ประเภทธุรกิจ)
+    dateofincorporation :{type:Date},//(วันที่จดทะเบียน)
+    capital :{type:String},//(ทุนจดทะเบียน)
+    //รายเอียด การดีลงาน
+    workloadmonth :{type:String}, //(ปริมาณงาน/เดือน)
+	  opportunity :{type:String},//(โอกาสในการปิดงาน)
+    forcastpercent :{type:String}, //(Forcast/ %)
+    forcastcupboard :{type:String},//(Forcast/ตู้)
+	  note:{type:String}, //หมายเหตุ
     team1_id :{type: mongoose.Schema.Types.ObjectId,ref:'team1',required:true} //รหัสทีม1
   },
   {timestamps: true}

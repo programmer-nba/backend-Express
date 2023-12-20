@@ -82,14 +82,25 @@ module.exports.reportteam2 = async (req, res) => {
         });
         const centralwork = await Centralwork.find().populate("quotation_id").populate("team2_id").populate("coordinatecustomers.coordinatecustomers_id");
         centralwork.map(item=>{
-            const team2id_item = item.team2_id._id;
+            let team2id_item =''
+           
+            if(item.team2_id != undefined)
+            {
+                team2id_item = item.team2_id._id;
+            }
+            else{
+                team2id_item = '';
+            }
+            
             //รับงานมาเท่าไหร่
-            const finds = data.findIndex(item => JSON.parse(JSON.stringify(item.team2_id)) == item.team2_id._id)
+            const finds = data.findIndex(item => JSON.parse(JSON.stringify(item.team2_id)) == team2id_item)
             if(finds !=-1)
             {
                 data[finds].countaddwork++;
             }
-            //ปิดงานไปเท่าไหร่
+            if(item.coordinatecustomers.length > 0 )
+            {
+                //ปิดงานไปเท่าไหร่
             if(item.coordinatecustomers.slice(-1)[0].coordinatecustomers_id.statuswork =="ผ่าน" ||item.coordinatecustomers.slice(-1)[0].coordinatecustomers_id.statuswork =="ไม่ผ่าน")
             {
                 data[finds].countclosework++;
@@ -105,6 +116,8 @@ module.exports.reportteam2 = async (req, res) => {
             {
                 data[finds].countnotpass++;
             }
+            }   
+            
             
 
         })

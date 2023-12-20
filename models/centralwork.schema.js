@@ -5,9 +5,9 @@ const centralworkSchema = new mongoose.Schema(
   {
   quotation_id : {type: mongoose.Schema.Types.ObjectId,ref:'quotation',required:true},
 	team1_id:{type: mongoose.Schema.Types.ObjectId,ref:'team1',required:true},
-	team2_id:{type: mongoose.Schema.Types.ObjectId,ref:'team2',default:''},
+	team2_id:{type: mongoose.Schema.Types.ObjectId,ref:'team2'},
 	customer_id: {type: mongoose.Schema.Types.ObjectId,ref:'customer',required:true},
-	datepull :{type:Date,default:''},
+	datepull :{type:Date},
 	coordinatecustomers:{type:[{
         coordinatecustomers_id : {type: mongoose.Schema.Types.ObjectId,ref:'coordinatecustomers'},
     }]}

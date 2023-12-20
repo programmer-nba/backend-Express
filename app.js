@@ -43,6 +43,8 @@ app.use(prefix+'/quotation',require('./routes/quotation'));
 app.use(prefix+'/centralwork',require('./routes/centralwork'));
 //ข้อมูลการดีลงานกับลูกค้า
 app.use(prefix+'/customswork',require('./routes/coordinatecustomer'))
+//ข้อมูล report 
+app.use(prefix+'/report',require('./routes/report'))
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // หรือกำหนด origin ที่เฉพาะเจาะจง
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

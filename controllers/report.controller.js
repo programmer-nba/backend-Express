@@ -3,6 +3,7 @@ const Team1 = require("../models/team1.schema")
 const Team2 = require("../models/team2.schema")
 const Customer = require("../models/customer.schema");
 const Quotation = require("../models/quotation.schema");
+const Centralwork = require("../models/centralwork.schema")
 module.exports.reportteam1 = async (req, res) => {
 
     try{
@@ -14,10 +15,10 @@ module.exports.reportteam1 = async (req, res) => {
         let data =[]
         customer.map(customer => {
             const teamId = customer.team1_id._id;
-            const finds = data.find(item =>item.team1_id == teamId)
-            if (finds) {
+            const finds = data.findIndex(item =>JSON.parse(JSON.stringify(item.team1_id)) == teamId)
+            if (finds != -1) {
                 // ถ้ามีอยู่แล้ว บวกจำนวนลูกค้า
-                // data[finds].countcutomer++;
+                data[finds].countcutomer++;
             } else {
                 // ถ้ายังไม่มี สร้าง key ใหม่
                 data.push({
@@ -34,12 +35,12 @@ module.exports.reportteam1 = async (req, res) => {
         const quotation = await Quotation.find().populate('team1_id');
         quotation.map(quotation => {
             const teamId = quotation.team1_id._id;
-            const finds = data.find(item =>item.team1_id == teamId)
+            const finds = data.findIndex(item => JSON.parse(JSON.stringify(item.team1_id)) ==teamId)
             console.log (teamId+'=')
             console.log(finds)
-            if (finds) {
+            if (finds != -1) {
                 // ถ้ามีอยู่แล้ว บวกจำนวนลูกค้า
-                // data[finds].countquotion++;
+                data[finds].countquotion++;
             } else {
                 // ถ้ายังไม่มี สร้าง key ใหม่
                 data.push({
@@ -52,6 +53,61 @@ module.exports.reportteam1 = async (req, res) => {
                 });
             }
         });
+
+        return res.status(200).send({status:true,data:data})
+    }catch (error) {
+        return res.status(500).send({status:false,error:error.message});
+    }
+}
+
+
+module.exports.reportteam2 = async (req, res) => {
+
+    try{
+        const data = []
+        const team2 = await Team2.find()
+        team2.map(team2 => {
+                // ถ้ายังไม่มี สร้าง key ใหม่
+                data.push({
+                    team2_id:team2._id,
+                    name:team2.name,
+                    level:team2.level,
+                    image:team2.image,
+                    countaddwork:0,
+                    countclosework:0,
+                    countpass:0,
+                    countnotpass:0,
+                    countprice:0
+                });
+        });
+        const centralwork = await Centralwork.find().populate("quotation_id").populate("team2_id").populate("coordinatecustomers.coordinatecustomers_id");
+        centralwork.map(item=>{
+            const team2id_item = item.team2_id._id;
+            //รับงานมาเท่าไหร่
+            const finds = data.findIndex(item => JSON.parse(JSON.stringify(item.team2_id)) == item.team2_id._id)
+            if(finds !=-1)
+            {
+                data[finds].countaddwork++;
+            }
+            //ปิดงานไปเท่าไหร่
+            if(item.coordinatecustomers.slice(-1)[0].coordinatecustomers_id.statuswork =="ผ่าน" ||item.coordinatecustomers.slice(-1)[0].coordinatecustomers_id.statuswork =="ไม่ผ่าน")
+            {
+                data[finds].countclosework++;
+            }
+            // ขายผ่าน //ยอดราคาที่ปิดงานได้
+            if(item.coordinatecustomers.slice(-1)[0].coordinatecustomers_id.statuswork =="ผ่าน")
+            {
+                data[finds].countpass++;
+                data[finds].countprice = data[finds].countprice + item.quotation_id.totalall               
+            }
+            //ขายไม่ผ่าน
+            if(item.coordinatecustomers.slice(-1)[0].coordinatecustomers_id.statuswork =="ไม่ผ่าน")
+            {
+                data[finds].countnotpass++;
+            }
+            
+
+        })
 
         return res.status(200).send({status:true,data:data})
     }catch (error) {

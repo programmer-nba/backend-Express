@@ -8,7 +8,8 @@ const team2Schema = new mongoose.Schema(
     name: {type: String, required: true},
     roles:{type:String,required:true},
     level:{type:String},
-    image:{type:String}
+    image:{type:String},
+    team_byteam2 :{type: mongoose.Schema.Types.ObjectId,ref:'team_byteam2',default: null}
   },
   {timestamps: true}
 );

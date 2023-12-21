@@ -1,11 +1,25 @@
 const Customer =  require('../models/customer.schema')
 const Team1  = require('../models/team1.schema')
+const Centralwork = require('../models/centralwork.schema')
 //เพิ่มข้อมูลลูกค้า
 module.exports.add = async (req, res) => {
     try{
-        const team1 = Team1.findById(req.body.team1_id)
-        if(!team1){
-            return res.status(200).send({status:false,message:"ไม่มีข้อมูลteam1"})
+        const companyname = await Customer.findOne({companyname:req.body.companyname})
+       
+        if(companyname)
+        {
+            return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.companyname}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+        }
+
+        const taxid = await Customer.findOne({taxid:req.body.taxid})
+        if(taxid)
+        {
+            return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.taxid}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+        }
+        const businessregistration = await Customer.findOne({businessregistration:req.body.businessregistration})
+        if(businessregistration)
+        {
+            return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.taxid}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
         }
         const customerdata = new Customer({
             customername: req.body.customername,
@@ -27,9 +41,20 @@ module.exports.add = async (req, res) => {
             dateofincorporation :req.body.dateofincorporation,
             capital :req.body.capital,
             team1_id:req.body.team1_id,
+            //ข้อมูลการดีลของทีมเปิด
+            workloadmonth : req.body.workloadmonth, //(ปริมาณงาน/เดือน)
+	        opportunity : req.body.opportunity, //(โอกาสในการปิดงาน)
+            forcastpercent : req.body.forcastpercent,// (Forcast/ %)
+            forcastcupboard : req.body.forcastpercent,//(Forcast/ตู้)
+	        note: req.body.note //หมายเหตุ
         }) 
         const add = await customerdata.save();
-        return res.status(200).send({status:true,data:add,message:"เพิ่มข้อมูลลูกค้าสำเร็จ"})
+        const datawork = new Centralwork({ 
+            customer_id: add._id,
+            team1_id:req.body.team1_id,
+        })
+        const addwork = await datawork.save();
+        return res.status(200).send({status:true,data:add,message:"เพิ่มข้อมูลลูกค้าสำเร็จ",centralwork:addwork})
     }catch (error) {
         return res.status(500).send({status:false,error:error.message});
     }
@@ -83,6 +108,23 @@ module.exports.edit = async (req, res) => {
         {
             return res.status(200).send({status:false,message:"ไม่มีข้อมูลลูกค้า"})
         }
+        const companyname = await Customer.findOne({companyname:req.body.companyname})
+       
+        if(companyname)
+        {
+            return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.companyname}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+        }
+
+        const taxid = await Customer.findOne({taxid:req.body.taxid})
+        if(taxid)
+        {
+            return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.taxid}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+        }
+        const businessregistration = await Customer.findOne({businessregistration:req.body.businessregistration})
+        if(businessregistration)
+        {
+            return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.taxid}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+        }
         const customerdata ={
             customername: req.body.customername,
             companyfirst: req.body.companyfirst,
@@ -102,6 +144,12 @@ module.exports.edit = async (req, res) => {
             natureofbusiness : req.body.natureofbusiness,
             dateofincorporation :req.body.dateofincorporation,
             capital :req.body.capital,
+            //ข้อมูลการดีลของทีมเปิด
+            workloadmonth : req.body.workloadmonth, //(ปริมาณงาน/เดือน)
+	        opportunity : req.body.opportunity, //(โอกาสในการปิดงาน)
+            forcastpercent : req.body.forcastpercent,// (Forcast/ %)
+            forcastcupboard : req.body.forcastpercent,//(Forcast/ตู้)
+	        note: req.body.note //หมายเหตุ
         }
 
         const edit = await Customer.findByIdAndUpdate(id,customerdata,{new:true})
@@ -124,4 +172,67 @@ module.exports.delete = async (req,res) =>{
     }catch (error) {
         return res.status(500).send({status:false,error:error.message});
     }
+}
+
+module.exports.addadmin = async (req, res) => {
+    try{
+        const team1 = Team1.findById(req.body.team1_id)
+        if(!team1){
+            return res.status(200).send({status:false,message:"ไม่มีข้อมูลteam1"})
+        }
+        const companyname = await Customer.findOne({companyname:req.body.companyname})
+       
+        if(companyname)
+        {
+            return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.companyname}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+        }
+
+        const taxid = await Customer.findOne({taxid:req.body.taxid})
+        if(taxid)
+        {
+            return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.taxid}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+        }
+        const businessregistration = await Customer.findOne({businessregistration:req.body.businessregistration})
+        if(businessregistration)
+        {
+            return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.taxid}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+        }
+        const customerdata = new Customer({
+            customername: req.body.customername,
+            companyfirst: req.body.companyfirst,
+            companyname: req.body.companyname,
+            customeemail: req.body.customeemail,
+            phonepersonal:req.body.phonepersonal,
+            //ที่อยู่ในการออกใบกำกับภาษี
+            addresstax: req.body.addresstax,
+            provincetax: req.body.provincetax,
+            amphuretax: req.body.amphuretax,
+            tambontax:req.body.tambontax,
+            telephonetax :req.body.telephonetax,
+            faxtax: req.body.faxtax,
+            //
+            taxid: req.body.taxid,
+            businessregistration: req.body.businessregistration,
+            natureofbusiness : req.body.natureofbusiness,
+            dateofincorporation :req.body.dateofincorporation,
+            capital :req.body.capital,
+            //ข้อมูลการดีลของทีมเปิด
+            workloadmonth : req.body.workloadmonth, //(ปริมาณงาน/เดือน)
+	        opportunity : req.body.opportunity, //(โอกาสในการปิดงาน)
+            forcastpercent : req.body.forcastpercent,// (Forcast/ %)
+            forcastcupboard : req.body.forcastpercent,//(Forcast/ตู้)
+	        note: req.body.note //หมายเหตุ
+
+        }) 
+
+        const add = await customerdata.save();
+        const datawork = new Centralwork({
+            customer_id: add._id,
+        })
+        const addwork = await datawork.save();
+        return res.status(200).send({status:true,data:add,centralwork:addwork,message:"เพิ่มข้อมูลลูกค้าสำเร็จ"})
+    }catch (error) {
+        return res.status(500).send({status:false,error:error.message});
+    }
+    
 }

@@ -5,6 +5,8 @@ const Customer =require('../controllers/customer.controller')
 
 //สร้าง ลูกค้า
 router.post('/',Team.tokenteam1,Customer.add)
+//สร้าง ลูกค้า โดย admin
+router.post('/admin/',Team.tokenteam1,Customer.addadmin)
 //ดึงข้อมูลทั้งหมด
 router.get('/',Team.all,Customer.getall)
 //ดึงข้อมูล by id

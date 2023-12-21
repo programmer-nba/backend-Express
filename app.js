@@ -45,6 +45,13 @@ app.use(prefix+'/centralwork',require('./routes/centralwork'));
 app.use(prefix+'/customswork',require('./routes/coordinatecustomer'))
 //ข้อมูล report 
 app.use(prefix+'/report',require('./routes/report'))
+//ข้อมูล zone 
+app.use(prefix+'/zone',require('./routes/zone'))
+//ข้อมุลทีมย่อยทีมเปิด
+app.use(prefix+'/team_byteam1',require('./routes/team_byteam1'))
+//ข้อมูลทีมย่อยของทีมปิด
+app.use(prefix+'/team_byteam2',require('./routes/team_byteam2'))
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // หรือกำหนด origin ที่เฉพาะเจาะจง
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

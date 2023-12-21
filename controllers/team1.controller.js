@@ -44,7 +44,8 @@ module.exports.add = async (req, res) => {
             password:bcrypt.hashSync(req.body.password, 10),
             name:req.body.name,
             roles:"team1",
-            level:req.body.level
+            level:req.body.level,
+            team_byteam1: req.body.team_byteam1,
         })
         const add = await data.save()
         res.status(200).send({status:true,message:"คุณได้สร้างไอดี team1 เรียบร้อย",data:add});
@@ -56,7 +57,7 @@ module.exports.add = async (req, res) => {
 //ดึงข้อมูลทั้งหมด
 module.exports.getall = async (req,res) =>{
     try{    
-        const team1data = await Team1.find()
+        const team1data = await Team1.find().populate('team_byteam1')
         if(!team1data){
             return res.status(200).send({status:false,message:"ไม่มีข้อมูล team1"})
         }
@@ -69,7 +70,7 @@ module.exports.getall = async (req,res) =>{
 //ดึงข้อมูล by id
 module.exports.getbyid = async (req,res) =>{
     try{    
-        const team1data = await Team1.findOne({_id:req.params.id})
+        const team1data = await Team1.findOne({_id:req.params.id}).populate('team_byteam1')
         if(!team1data){
             return res.status(200).send({status:false,message:"ไม่มีข้อมูล team1"})
         }
@@ -128,7 +129,8 @@ module.exports.edit = async (req,res) =>{
             username: req.body.username,
             password: ( req.body.password!= undefined && req.body.password!= ""? bcrypt.hashSync(req.body.password, 10):team1.password),
             name:req.body.name,
-            level:req.body.level
+            level:req.body.level,
+            team_byteam1: req.body.team_byteam1,
         }
         const edit = await Team1.findByIdAndUpdate(req.params.id,data,{new:true})
         return res.status(200).send({status:true,data:edit,message:"แก้ไขข้อมูลสำเร็จ"})

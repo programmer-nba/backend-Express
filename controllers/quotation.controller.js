@@ -36,7 +36,24 @@ module.exports.add = async (req, res) => {
             datequotation:req.body.datequotation,//(วันที่ออกใบเสนอราคา)
 	        refno :refno, //(เลขที่อ้างอิง)
 	        customer_id:req.body.customer_id, //(ชื่อลูกค้า)(ดึงชื่อบริษัทมา) (ดึงข้อมูลลูกค้ามา)
-	        listitem : req.body.listitem,
+	        
+            commodity:req.body.commodity,// สินค้า เพิ่มมาใหม่
+            volumn:req.body.volumn,// ปริมาณ เพิ่มมาใหม่
+            term:req.body.term,// เงื่อนไข เพิ่มมาใหม่
+            weight:req.body.weight,// น้ำหนัก เพิ่มมาใหม่
+            transporttype:req.body.transporttype, //ประเภทขนส่ง
+            freightforwarder : req.body.freightforwarder,
+            totalfreightforwarder:req.body.totalfreightforwarder,
+            customsclearance : req.body.customsclearance,
+            totalcustomsclearance: req.body.totalcustomsclearance,
+            transport : req.body.transport,
+            totaltransport: req.body.totaltransport,
+            transportdomestic : req.body.transportdomestic,
+            totaltransportdomestic : req.body.totaltransportdomestic,
+            additionalcharges : req.body.additionalcharges,
+            totaladditionalcharges : req.body.totaladditionalcharges,
+            remark : req.body.remark, 
+
             total:req.body.total,//(ราคารวมขนส่ง)
             vat:req.body.vat,//(ราคาภาษี 7 %)
             totalall:req.body.totalall, //(ราคารวม)
@@ -95,7 +112,24 @@ module.exports.edit = async (req, res) => {
         }
         const data = {
             datequotation:req.body.datequotation,//(วันที่ออกใบเสนอราคา)
-	        listitem : req.body.listitem,
+	        
+            commodity:req.body.commodity,// สินค้า เพิ่มมาใหม่
+            volumn:req.body.volumn,// ปริมาณ เพิ่มมาใหม่
+            term:req.body.term,// เงื่อนไข เพิ่มมาใหม่
+            weight:req.body.weight,// น้ำหนัก เพิ่มมาใหม่
+            transporttype:req.body.transporttype, //ประเภทขนส่ง
+            freightforwarder : req.body.freightforwarder,
+            totalfreightforwarder:req.body.totalfreightforwarder,
+            customsclearance : req.body.customsclearance,
+            totalcustomsclearance: req.body.totalcustomsclearance,
+            transport : req.body.transport,
+            totaltransport: req.body.totaltransport,
+            transportdomestic : req.body.transportdomestic,
+            totaltransportdomestic : req.body.totaltransportdomestic,
+            additionalcharges : req.body.additionalcharges,
+            totaladditionalcharges : req.body.totaladditionalcharges,
+            remark : req.body.remark,
+
             total:req.body.total,//(ราคารวมขนส่ง)
             vat:req.body.vat,//(ราคาภาษี 7 %)
             totalall:req.body.totalall, //(ราคารวม)

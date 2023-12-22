@@ -112,6 +112,27 @@ module.exports.edit = async (req, res) => {
     
 }
 
+//team 1 งานดีล
+module.exports.addworkteam1 = async (req, res) => {
+    try{
+        const id = req.params.id
+        const centralwork = await Centralwork.findById(id)
+        if(!centralwork)
+        {
+            return res.status(200).send({status:false,message:"ไม่มีข้อมูลการดีลงาน"})
+        }
+        const centralworkdata ={
+            team1_id:req.body.team1_id,
+            dateexpirationteam1: new Date(Date.now()+ (31 * 24 * 60 * 60 * 1000))
+        }
+        const edit = await Centralwork.findByIdAndUpdate(id,centralworkdata,{new:true})
+        const editcustomerdata = await Customer.findByIdAndUpdate(centralwork._id,{team_id:req.body.team1_id},{new:true}) 
+        return res.status(200).send({status:true,data:edit,customer:editcustomerdata,message:"เพิ่มข้อมูลการดีลงานสำเร็จ"})
+    }catch (error) {
+        return res.status(500).send({status:false,error:error.message});
+    }
+    
+}
 //team 2 งานดีล
 module.exports.addworkteam2 = async (req, res) => {
     try{
@@ -126,6 +147,32 @@ module.exports.addworkteam2 = async (req, res) => {
             datepull :Date.now(),
         }
         const edit = await Centralwork.findByIdAndUpdate(id,centralworkdata,{new:true})
+        return res.status(200).send({status:true,data:edit,message:"เพิ่มข้อมูลการดีลงานสำเร็จ"})
+    }catch (error) {
+        return res.status(500).send({status:false,error:error.message});
+    }
+    
+}
+
+//ส่งรายงานการดีลของ team 1
+module.exports.addreportteam1 = async (req, res) => {
+    try{
+
+        const id = req.params.id
+        const centralwork = await Centralwork.findById(id)
+        if(!centralwork)
+        {
+            return res.status(200).send({status:false,message:"ไม่มีข้อมูลการดีลงาน"})
+        }
+        const centralworkdata ={
+            workloadmonth : req.body.workloadmonth, //(ปริมาณงาน/เดือน)
+            opportunity :req.body.opportunity,//(โอกาสในการปิดงาน)
+            forcastpercent :req.body.forcastpercent, //(Forcast/ %)
+            forcastcupboard :req.body.forcastcupboard,//(Forcast/ตู้)
+            note:req.body.note, //หมายเหตุ
+        }
+        const edit = await Centralwork.findByIdAndUpdate(id,centralworkdata,{new:true})
+       
         return res.status(200).send({status:true,data:edit,message:"เพิ่มข้อมูลการดีลงานสำเร็จ"})
     }catch (error) {
         return res.status(500).send({status:false,error:error.message});

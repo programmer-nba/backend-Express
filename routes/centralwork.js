@@ -21,5 +21,8 @@ router.put('/:id',Team.all,Centralwork.edit)
 //รับงาน
 router.put('/addwork/:id',Team.tokenteam2,Centralwork.addworkteam2)
 
+router.put('/addworkteam1/:id',Team.tokenteam1,Centralwork.addworkteam1)
 
+//ส่งรายงานการดีลของทีมเปิด
+router.put("/addreportteam1/:id",Team.tokenteam1,Centralwork.addreportteam1)
 module.exports = router;

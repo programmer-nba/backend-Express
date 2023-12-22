@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 const Team = require('../authentication/teamAuth')
 const Customer =require('../controllers/customer.controller')
-
+const adminAuth = require('../authentication/adminAuth')
 //สร้าง ลูกค้า
 router.post('/',Team.tokenteam1,Customer.add)
 //สร้าง ลูกค้า โดย admin
-router.post('/admin/',Team.tokenteam1,Customer.addadmin)
+router.post('/admin/',adminAuth,Customer.addadmin)
 //ดึงข้อมูลทั้งหมด
 router.get('/',Team.all,Customer.getall)
 //ดึงข้อมูล by id

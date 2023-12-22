@@ -13,46 +13,54 @@ module.exports.reportteam1 = async (req, res) => {
         // team1 หาลูกค้าเข้ามา
         const customer = await Customer.find().populate('team1_id');
         let data =[]
-        customer.map(customer => {
-            const teamId = customer.team1_id._id;
-            const finds = data.findIndex(item =>JSON.parse(JSON.stringify(item.team1_id)) == teamId)
-            if (finds != -1) {
-                // ถ้ามีอยู่แล้ว บวกจำนวนลูกค้า
-                data[finds].countcutomer++;
-            } else {
-                // ถ้ายังไม่มี สร้าง key ใหม่
-                data.push({
-                    team1_id:teamId,
-                    name:customer.team1_id.name,
-                    level:customer.team1_id.level,
-                    image:customer.team1_id.image,
-                    countcutomer:1,
-                    countquotion:0
-                });
-            }
-        });
-        // team 1 ทำใบเสนอราคา 
-        const quotation = await Quotation.find().populate('team1_id');
-        quotation.map(quotation => {
-            const teamId = quotation.team1_id._id;
-            const finds = data.findIndex(item => JSON.parse(JSON.stringify(item.team1_id)) ==teamId)
-            console.log (teamId+'=')
-            console.log(finds)
-            if (finds != -1) {
-                // ถ้ามีอยู่แล้ว บวกจำนวนลูกค้า
-                data[finds].countquotion++;
-            } else {
-                // ถ้ายังไม่มี สร้าง key ใหม่
-                data.push({
-                    team1_id:teamId,
-                    name:quotation.team1_id.name,
-                    level:quotation.team1_id.level,
-                    image:quotation.team1_id.image,
-                    countcutomer:0,
-                    countquotion:1
-                });
-            }
-        });
+        if(customer !=[])
+        {
+            customer.map(customer => {
+                if(customer.team1_id != null)
+                {
+                    const teamId = customer.team1_id._id;
+                    const finds = data.findIndex(item =>JSON.parse(JSON.stringify(item.team1_id)) == teamId)
+                if (finds != -1) {
+                    // ถ้ามีอยู่แล้ว บวกจำนวนลูกค้า
+                    data[finds].countcutomer++;
+                } else {
+                    // ถ้ายังไม่มี สร้าง key ใหม่
+                    data.push({
+                        team1_id:teamId,
+                        name:customer.team1_id.name,
+                        level:customer.team1_id.level,
+                        image:customer.team1_id.image,
+                        countcutomer:1,
+                        countquotion:0
+                    });
+                }
+                }
+                
+            });
+            // team 1 ทำใบเสนอราคา 
+            const quotation = await Quotation.find().populate('team1_id');
+            quotation.map(quotation => {
+                const teamId = quotation.team1_id._id;
+                const finds = data.findIndex(item => JSON.parse(JSON.stringify(item.team1_id)) ==teamId)
+                console.log (teamId+'=')
+                console.log(finds)
+                if (finds != -1) {
+                    // ถ้ามีอยู่แล้ว บวกจำนวนลูกค้า
+                    data[finds].countquotion++;
+                } else {
+                    // ถ้ายังไม่มี สร้าง key ใหม่
+                    data.push({
+                        team1_id:teamId,
+                        name:quotation.team1_id.name,
+                        level:quotation.team1_id.level,
+                        image:quotation.team1_id.image,
+                        countcutomer:0,
+                        countquotion:1
+                    });
+                }
+            });
+        }
+        
 
         return res.status(200).send({status:true,data:data})
     }catch (error) {

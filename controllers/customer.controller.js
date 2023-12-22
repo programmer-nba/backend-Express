@@ -108,23 +108,29 @@ module.exports.edit = async (req, res) => {
         {
             return res.status(200).send({status:false,message:"ไม่มีข้อมูลลูกค้า"})
         }
-        const companyname = await Customer.findOne({companyname:req.body.companyname})
-       
-        if(companyname)
+        if(customers.companyname !=req.body.companyname)
         {
-            return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.companyname}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+            const companyname = await Customer.findOne({companyname:req.body.companyname})
+            if(companyname)
+            {
+                return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.companyname}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+            }
         }
-
-        const taxid = await Customer.findOne({taxid:req.body.taxid})
-        if(taxid)
-        {
-            return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.taxid}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+        if(customers.taxid !=req.body.taxid){
+            const taxid = await Customer.findOne({taxid:req.body.taxid})
+            if(taxid)
+            {
+                return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.taxid}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+            }
         }
-        const businessregistration = await Customer.findOne({businessregistration:req.body.businessregistration})
-        if(businessregistration)
-        {
-            return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.taxid}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+        if(customers.businessregistration !=req.body.businessregistration){
+            const businessregistration = await Customer.findOne({businessregistration:req.body.businessregistration})
+            if(businessregistration)
+            {
+                return res.status(200).send({status:false,message:`ชื่อบริษัท ${req.body.taxid}ซ้ำกัน ไม่สามารถเพิ่มได้ `})
+            }
         }
+        
         const customerdata ={
             customername: req.body.customername,
             companyfirst: req.body.companyfirst,

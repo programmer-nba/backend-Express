@@ -268,26 +268,53 @@ module.exports.addadmin = async (req, res) => {
             companyfirst: req.body.companyfirst,
             companyname: req.body.companyname,
             customeemail: req.body.customeemail,
-            phonepersonal:req.body.phonepersonal,
             //ที่อยู่ในการออกใบกำกับภาษี
             addresstax: req.body.addresstax,
             provincetax: req.body.provincetax,
             amphuretax: req.body.amphuretax,
             tambontax:req.body.tambontax,
+            zipcodetax:req.body.zipcodetax,
             telephonetax :req.body.telephonetax,
             faxtax: req.body.faxtax,
-            //
+            //ที่อยู่ในการส่งเอกสาร  
+            address: req.body.address, //(ที่อยู่ใบกำกับภาษี) เพิ่มมา/
+            province: req.body.province, //(จังหวัดใบกำกับภาษี)เพิ่มมา/
+            amphure: req.body.amphure,//(อำเภอใบกำกับภาษี)เพิ่มมา/
+            tambon: req.body.tambon,//(ตำบลใบกำกับภาษี)เพิ่มมา/
+            zipcode : req.body.zipcode, //(ไปรษณีย์) เพิ่มมา/
+            telephone :req.body.telephone,//(เบอร์โทรศัพท์)
+            fax: req.body.fax, //(โทรสาร)เพิ่มมา/
+            phonepersonal:req.body.phonepersonal,
+
+
             taxid: req.body.taxid,
             businessregistration: req.body.businessregistration,
             natureofbusiness : req.body.natureofbusiness,
             dateofincorporation :req.body.dateofincorporation,
             capital :req.body.capital,
-            //ข้อมูลการดีลของทีมเปิด
-            workloadmonth : req.body.workloadmonth, //(ปริมาณงาน/เดือน)
-	        opportunity : req.body.opportunity, //(โอกาสในการปิดงาน)
-            forcastpercent : req.body.forcastpercent,// (Forcast/ %)
-            forcastcupboard : req.body.forcastpercent,//(Forcast/ตู้)
-	        note: req.body.note //หมายเหตุ
+            //ข้อมูลด้านธนาคารเพิ่มมา/
+	        nameofbank :req.body.nameofbank,//ชื่อธนาคาร
+	        accountno:req.body.accountno,//(เลขที่บัญชี)
+	        branch : req.body.branch, //(สาขา)
+	        contactperson: req.body.contactperson,
+	        tel: req.body.tel,
+	        facilities: req.body.facilities,
+	        credit: req.body.credit,
+	        //เงื่อนไขการวางบิลและรับเช็คเพิ่มมา/
+	        billdate: req.body.billdate, //กำหนดวันรับวางบิล:
+	        namebill: req.body.namebill, // ชื่อ-สกุลบุคคลที่รับวางบิล
+	        countcredits: req.body.countcredits, //การนับเครดิต
+	        othercountcredits: req.body.othercountcredits, //การนับเครดิตอื่น
+	        paymentstype: req.body.paymentstype, //กำหนดการรับชำระเงิน:
+	        setdatebillandcredits:req.body.setdatebillandcredits,   //กำหนดการรับเช็ค/โอนเงิน ทุกวันที่ :
+	        contactbill: req.body.contactbill, //บุคคลที่ติดต่อเรื่องการรับชำระเงิน  
+	        tellbill: req.body.tellbill,//โทร 
+	        //ส่วนของบริษัท พิจารณาการขอเครดิต
+	        approvalcredit: req.body.approvalcredit, //การอนุมัติการขอเครดิต 
+            limitcredit: req.body.limitcredit, //วงเงินเครดิตที่ได้รับอนุมัติ บาท
+	        datecredit: req.body.datecredit,//จำนวนวัน
+	        employeename: req.body.employeename, //พนักงานขาย
+	        notecredit: req.body.notecredit,//เหตุผลการพิจารณา
 
         }) 
 

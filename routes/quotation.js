@@ -10,8 +10,8 @@ router.get('/',Team.all,Quotation.getall)
 //ดึงข้อมูล by id
 router.get('/byid/:id',Team.all,Quotation.getbyid)
 //แก้ไขข้อมูลลูกค้า 
-router.put('/:id',Team.tokenteam1,Quotation.edit)
+router.put('/:id',Team.all,Quotation.edit)
 //ลบข้อมูลลูกค้า
-router.delete('/:id',Team.tokenteam1,Quotation.delete)
+router.delete('/:id',Team.all,Quotation.delete)
 
 module.exports = router;

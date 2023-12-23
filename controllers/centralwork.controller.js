@@ -142,9 +142,9 @@ module.exports.addworkteam2 = async (req, res) => {
         {
             return res.status(200).send({status:false,message:"ไม่มีข้อมูลการดีลงาน"})
         }
-        const centralworkdata ={
+        const centralworkdata ={    
             team2_id:req.body.team2_id,
-            datepull :Date.now(),
+            dateexpirationteam2: new Date(Date.now()+ (60 * 24 * 60 * 60 * 1000))
         }
         const edit = await Centralwork.findByIdAndUpdate(id,centralworkdata,{new:true})
         return res.status(200).send({status:true,data:edit,message:"เพิ่มข้อมูลการดีลงานสำเร็จ"})

@@ -34,40 +34,22 @@ module.exports.add = async (req, res) => {
         }
         const data = new Quotation({
             datequotation:req.body.datequotation,//(วันที่ออกใบเสนอราคา)
-	        refno :refno, //(เลขที่อ้างอิง)
-	        customer_id:req.body.customer_id, //(ชื่อลูกค้า)(ดึงชื่อบริษัทมา) (ดึงข้อมูลลูกค้ามา)
-	        
-            commodity:req.body.commodity,// สินค้า เพิ่มมาใหม่
-            volumn:req.body.volumn,// ปริมาณ เพิ่มมาใหม่
-            term:req.body.term,// เงื่อนไข เพิ่มมาใหม่
-            weight:req.body.weight,// น้ำหนัก เพิ่มมาใหม่
-            transporttype:req.body.transporttype, //ประเภทขนส่ง
-            freightforwarder : req.body.freightforwarder,
-            totalfreightforwarder:req.body.totalfreightforwarder,
-            customsclearance : req.body.customsclearance,
-            totalcustomsclearance: req.body.totalcustomsclearance,
-            transport : req.body.transport,
-            totaltransport: req.body.totaltransport,
-            transportdomestic : req.body.transportdomestic,
-            totaltransportdomestic : req.body.totaltransportdomestic,
-            additionalcharges : req.body.additionalcharges,
-            totaladditionalcharges : req.body.totaladditionalcharges,
-            remark : req.body.remark, 
-
+            refno :refno, //(เลขที่อ้างอิง)
+            customer_id:req.body.customer_id, //(ชื่อลูกค้า)(ดึงชื่อบริษัทมา) (ดึงข้อมูลลูกค้ามา)
+            listitem : req.body.listitem,
             total:req.body.total,//(ราคารวมขนส่ง)
             vat:req.body.vat,//(ราคาภาษี 7 %)
             totalall:req.body.totalall, //(ราคารวม)
             team1_id:req.body.team1_id//(รหัสทีม1)
         })
         const add = await data.save();
-
-        const datawork = new Centralwork({
-            quotation_id : add._id,
-            team1_id: req.body.team1_id,
-            customer_id: req.body.customer_id,
-        })
-        const addwork = await datawork.save();
-        return res.status(200).send({status:true,data:add,message:"เพิ่มข้อมูลใบเสนอราคา",centralwork:addwork})
+        const editdata = {
+            quotation_id:add._id,
+            datepull:Date.now()
+        }
+        
+        const editcentralwork = await Centralwork.findByIdAndUpdate(req.body.centralwork_id,editdata,{new:true})
+        return res.status(200).send({status:true,data:add,message:"เพิ่มข้อมูลใบเสนอราคา",centralwork:editcentralwork})
     }catch (error) {
         return res.status(500).send({status:false,error:error.message});
     }
@@ -112,27 +94,12 @@ module.exports.edit = async (req, res) => {
         }
         const data = {
             datequotation:req.body.datequotation,//(วันที่ออกใบเสนอราคา)
-	        
-            commodity:req.body.commodity,// สินค้า เพิ่มมาใหม่
-            volumn:req.body.volumn,// ปริมาณ เพิ่มมาใหม่
-            term:req.body.term,// เงื่อนไข เพิ่มมาใหม่
-            weight:req.body.weight,// น้ำหนัก เพิ่มมาใหม่
-            transporttype:req.body.transporttype, //ประเภทขนส่ง
-            freightforwarder : req.body.freightforwarder,
-            totalfreightforwarder:req.body.totalfreightforwarder,
-            customsclearance : req.body.customsclearance,
-            totalcustomsclearance: req.body.totalcustomsclearance,
-            transport : req.body.transport,
-            totaltransport: req.body.totaltransport,
-            transportdomestic : req.body.transportdomestic,
-            totaltransportdomestic : req.body.totaltransportdomestic,
-            additionalcharges : req.body.additionalcharges,
-            totaladditionalcharges : req.body.totaladditionalcharges,
-            remark : req.body.remark,
-
+            customer_id:req.body.customer_id, //(ชื่อลูกค้า)(ดึงชื่อบริษัทมา) (ดึงข้อมูลลูกค้ามา)
+            listitem : req.body.listitem,
             total:req.body.total,//(ราคารวมขนส่ง)
             vat:req.body.vat,//(ราคาภาษี 7 %)
             totalall:req.body.totalall, //(ราคารวม)
+            team1_id:req.body.team1_id//(รหัสทีม1)
         }
         const edit = await Quotation.findByIdAndUpdate(id,data,{new:true})
         return res.status(200).send({status:true,data:edit,message:"แก้ไขข้อมูลสำเร็จ"})
@@ -150,9 +117,8 @@ module.exports.delete = async (req,res) =>{
         {
             return res.status(200).send({status:false,message:"ไม่มีข้อมูลใบเสนอราคา"})
         }
-        const deletes = await Quotation.findByIdAndDelete(id)
-        const deleteworkcentral = await Centralwork.findOneAndDelete({quotation_id:id})
-        return res.status(200).send({status:true,data:deletes,message:'ลบข้อมูลสำเร็จ',centralwork:deleteworkcentral})
+    
+        return res.status(200).send({status:true,data:deletes,message:'ลบข้อมูลสำเร็จ'})
     }catch (error) {
         return res.status(500).send({status:false,error:error.message});
     }
